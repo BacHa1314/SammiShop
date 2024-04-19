@@ -1,0 +1,69 @@
+{% extends "general/base.html" %}
+
+{% block content %}
+<div class="w-full justify-center px-48">
+  <div class="flex flex-col justify-center my-10">
+    {{ Breadcrumbs | safe }}
+
+    <div class="flex flex-col sm:flex-row justify-center">
+      <img
+        style="aspect-ratio: 10/12"
+        class="w-72 sm:w-80 rounded-xl object-cover mb-5 mr-16"
+        src="{{products_query.image}}"
+        alt="image"
+      />
+      <div class="w-10"></div>
+      <div class="flex flex-col">
+        <h1 class="font-bold text-2xl sm:text-4xl mb-5">{{products_query.name}}</h1>
+        <p class="mb-5 text-2xl text-red-600 font-bold">
+          {{ '{:,.0f}'.format(products_query.price).replace(',', '.')}} vnđ
+        </p>
+        <p class="mb-5 text-base">
+          <b>Dành cho: </b>
+          {% for platform in platforms_of_products%} {{platform.platform_name}} {%
+          if not loop.last %}, {% endif %} {% endfor %}
+        </p>
+        <p class="mb-5 text-base">
+          <b>Thương hiệu: </b>
+          {{brand.brand_name}}
+        </p>
+        <p class="mb-5 text-base">
+          <b>Thể loại: </b>
+          {% for genre in genres_of_products%} {{genre.genre_name}} {% if not
+          loop.last %}, {% endif %} {% endfor %}
+        </p>
+        <p class="mb-5 text-base">
+          <b>Mô tả sản phẩm:</b> 
+          {{products_query.description}}</p>
+                <form action={{ url_for('cart.cart_add') }} method="POST">
+          <input type="hidden" name="products_id" value="{{products_id}}">         
+          <button
+            class="font-bold px-20 py-2 text-white shadow-xl bg-red-600 hover:bg-red-700 duration-300 rounded-full my-5">
+            Thêm vào giỏ hàng
+          </button>
+        </form>
+      </div>
+    </div>
+    <p class="mt-8 text-justify">
+      <b>Chính sách trả hàng và hoàn tiền: </b>
+       SAMMISHOP sẽ giải quyết khiếu naại khi khách hàng thực hiện theo các bước sau
+       <ul>
+            <li>
+              Bước 1: Kiểm tra gói hàng còn nguyên niêm phong từ shipper
+            </li>
+            <li>
+              Bước 2: Quay lại video toàn bộ quá trình mở hộp, không qua cắt ghép, chỉnh sửa
+            </li>
+            <li>
+              Bước 3: Nếu phát hiện sản phẩm bị lỗi hoặc thiếu, quý khách vui lòng liên hệ hotline để được hỗ trợ nhanh nhất
+            </li>
+  </ul>
+    </p>
+    <p class="mt-8 text-justify">
+      <b>Chính sách giao hàng: </b>
+      Sammishop áp dụng chương trình giao hàng miễn phí với hóa đơn từ 80K. SAMMI sẽ gọi điện xác nhận đơn hàng trong vòng 24h,
+      trước khi giao hàng shipper sẽ liên hệ với quý khách
+    </p>
+  </div>
+</div>
+{% endblock %}

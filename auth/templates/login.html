@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--add this code to using tailwind -->
+    <link rel="stylesheet" href="../../static/output.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"/>
+    <title>Sammishop | Đăng Nhập</title>
+  </head>
+  <body>
+    <section
+      class="bg-radial-dark min-h-screen flex items-center justify-center"
+    >
+      <div class="py-32 px-52 flex bg-white rounded-2xl shadow-lg max-w-5xl">
+        <div class="w-96 items-center mr-16 rounded-xl">
+          <img
+            class="rounded-xl mx-8"
+            src="../../static/assets/img/img_6.png"
+            alt="themelogin"
+          />
+        </div>
+        <div class="w-1/2 items-center mb-4">
+          <div>
+            <img src="../../static/assets/img/img_4.png" />
+          </div>
+          <p class="text-base font-bold text-black mb-8 w-96">
+            Đăng nhập bằng tài khoản Sammishop
+          </p>
+          <form action="http://127.0.0.1:5000" method="POST" class="flex flex-col">
+            <input
+              class="p-2 w-96 rounded-3xl border text-black mb-8"
+              type="text"
+              name="email"
+              placeholder="Nhập email của bạn"
+            />
+            <input
+              class="p-2 w-96 rounded-3xl border text-black"
+              type="password"
+              name="password"
+              placeholder="Nhập mật khẩu"
+            />
+            <a class="py-2 mb-2 text-neutral-400 text-xs underline"
+              >Quên mật khẩu?</a
+            >
+            <button type="submit"
+              class="bg-red-600 hover:bg-red-700 rounded-3xl py-2 text-white font-medium w-96"
+            >
+              Đăng nhập
+            </button>
+
+          </form>
+          <br>
+          <form action={{ url_for('auth.register') }}>
+            <button type="submit" class="bg-red-600 hover:bg-red-700 rounded-3xl py-2 text-white font-medium w-96">
+              Đăng Ký
+            </button>
+          </form>
+
+          <div class="mt-5 w-60 grid text-gray-500 items-center">
+            <hr class="border-gray-500 border-solid w-96" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

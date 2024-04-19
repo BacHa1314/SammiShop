@@ -1,0 +1,63 @@
+<div class="relative mb-5">
+  <button
+    id="dropdownButton"
+    class="z-40 w-64 text-red-600 rounded-3xl text-base font-bold bg-white shadow-xl duration-200 px-5 py-2.5 text-center inline-flex items-center"
+    type="button"
+  >
+    <p class="font-medium text-black mr-4">Hiển thị:</p>
+    {% if option_value %} {{option_value}} {% else %} Liên quan nhất {% endif %}
+  </button>
+  <!-- Dropdown menu -->
+  <div
+    id="dropdown"
+    class="z-20 hidden bg-white rounded-3xl absolute mt-4 shadow-md top-15 w-64"
+  >
+    <ul class="py-2 text-sm">
+      <li>
+        <a
+          href="{{ url_for('products.sort_products', sort_by = 'price_asc') }}"
+          class="block px-4 py-2 text-base font-medium hover:bg-red-600 hover:text-white"
+          >Giá tăng dần</a
+        >
+      </li>
+      <li>
+        <a
+          href="{{ url_for('products.sort_products', sort_by = 'price_desc') }}"
+          class="block px-4 py-2 text-base font-medium hover:bg-red-600 hover:text-white"
+          >Giá giảm dần</a
+        >
+      </li>
+      <li>
+        <a
+          href="{{ url_for('products.sort_products', sort_by = 'name_asc') }}"
+          class="block px-4 py-2 text-base font-medium hover:bg-red-600 hover:text-white"
+          >Xếp theo tên từ trên xuống</a
+        >
+      </li>
+      <li>
+        <a
+          href="{{ url_for('products.sort_products', sort_by = 'name_desc') }}"
+          class="block px-4 py-2 text-base font-medium hover:bg-red-600 hover:text-white"
+          >Xếp theo tên từ dưới lên</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dropdownButton = document.getElementById("dropdownButton");
+    const dropdown = document.getElementById("dropdown");
+
+    dropdownButton.addEventListener("click", function () {
+      if (dropdown.classList.contains("visible")) {
+        dropdown.classList.remove("visible");
+        dropdown.classList.add("hidden");
+      } else {
+        dropdown.classList.add("visible");
+        dropdown.classList.remove("hidden");
+      }
+    });
+  });
+</script>

@@ -1,0 +1,38 @@
+{% if products_query %} {% for products in products_query %}
+<div class="flex flex-col items-center w-60 sm:w-80">
+  <a
+    title="{{products.name}}"
+    href="{{ url_for('products.product_detail', product_id=products.id) }}"
+    class="flex flex-col items-center"
+  >
+    <img
+      class="rounded-2xl cursor-pointer hover:opacity-60 duration-200 object-cover aspect-square"
+      src="{{products.image}}"
+      alt="image"
+    />
+    <h1
+      class="font-bold text-base my-3 w-60 sm:w-80 text-left truncate"
+    >
+      {{products.name}}
+    </h1>
+    <div class="flex items-center justify-between w-60 sm:w-80">
+      <p class="text-primaryColor text-xl font-bold">
+        {{ products.price | currency }}
+      </p>
+    </div>
+  </a>
+
+  <form action={{ url_for('cart.cart_add') }} method="POST">
+    <input type="hidden" name="products_id" value="{{products.id}}">
+    <button
+      class="font-bold text-white w-60 sm:w-80 py-3 shadow-xl bg-red-600 hover:bg-red-500 duration-300 rounded-full my-5"
+    >
+      Thêm vào giỏ hàng
+   </button>
+  </form>
+</div>
+{% endfor %}
+
+{% else %}
+  <p class="w-full">Không tìm thấy sản phẩm nào</p>
+{% endif %}

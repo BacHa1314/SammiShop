@@ -1,0 +1,114 @@
+{% extends "general/base.html" %}
+
+{% block content %}
+<div class="px-48 mt-12 flex justify-between gap-10">
+    <div class="my-cart grow">
+        <h3 class="mb-12 text-3xl font-bold">Giỏ hàng</h3>
+        <hr class="opacity-40">
+        <br>
+        {% if cart %}
+        <div class="cart-products-container w-full">
+            {% for products in cart %}
+            <div class="cart-product h-44 flex justify-between gap-6 pl-6 pr-4 py-5 mb-4 shadow-xl rounded-3xl bg-white hover:bg-[whitesmoke] hover:text-slate-600">
+                <div class="flex justify-between grow">
+                    <div class="product-info flex">
+                        <div class="h-36 rounded-md overflow-hidden inline-block mr-5">
+                            <img src={{ products.image }} 
+                            class="object-cover h-full rounded-sm aspect-square">
+                        </div>
+                        <div class="flex flex-col justify-between pb-1">
+                            <div>
+                                <div>
+                                    <h4 class="text-base font-bold">{{ products.name }}</h4>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="font-bold text-xl text-red-600">{{ products.price | currency }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                
+                                <p class="text-sm font-medium text-blue-600 italic">Thanh toán VNPAY để nhận mã giảm giá 10% cho đơn hàng đầu tiên</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div>
+                    <form id="delete_form-{{products.id}}" action={{ url_for('cart.cart_remove', products_id=products.id) }} method="POST">
+                        <button id={{products.id}} type="submit" onclick="handleDelete(event, id)">
+                            <i class="remove-item fa-solid fa-xmark align-top text-[#616161] cursor-pointer opacity-70 
+                            hover:opacity-100"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="promo-code mt-6">
+            <p class="text-primaryColor font-medium italic">
+                <i class="fa-solid fa-tag mr-1 text-primaryColor"></i>
+                Nhập mã giảm giá
+            </p>
+        </div>
+        {% else %}
+        <p class="italic">Giỏ hàng của bạn hiện đang trống.</p>
+        <p class="italic">Xem các sản phẩm của Sammishop
+            <a href={{ url_for('products.index') }} class="underline hover:text-primaryColor">tại đây.</a>
+        </p>
+        {% endif %}
+    </div>
+    
+    <div class="order-summary w-1/4 ">
+        <h3 class="mb-12 text-3xl font-bold">Đơn hàng</h3>
+        <hr class="opacity-40">
+        <div class="pt-5 pb-3">
+            <div class="py-2 flex justify-between">
+                <span>Giá trị đơn hàng</span>
+                <span>{{ subtotal | currency }}</span>
+            </div>
+            <div class="py-2 flex justify-between">
+                <span>Mã giảm giá</span>
+                <span>{{ discount | currency }}</span>
+            </div>
+            <div class="py-2 flex justify-between">
+                <span>Phí vận chuyển</span>
+                <span>{{ taxes | currency }}</span>
+            </div>
+        </div>
+        <hr class="opacity-40">
+        <div class="font-semibold pt-4 pb-3 flex text-red-600 justify-between">
+            <span>Tổng giá trị</span>
+            <span>{{ total | currency }}</span>
+        </div>
+        <form method="POST" id="checkout_form">
+            <button type="button" class="block mt-4 mx-auto bg-primaryColor shadow-xl text-white h-12 w-full font-bold rounded-3xl
+            hover:opacity-70 transition-all duration-200"
+            onclick="handleCheckout()">
+                Xác nhận thanh toán
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+    function handleDelete(event, id) {
+        if (window.confirm('Are you sure to remove this products from your cart?')) {
+            delete_form = document.getElementById(`delete_form-${id}`);
+            delete_form.submit();
+        } else {
+            event.preventDefault();
+        }
+    }
+
+    function handleCheckout(event) {
+        if (window.confirm(`Are you sure to purchase all these productss for {{total | currency}}`)) {
+            checkout_form = document.getElementById('checkout_form');
+            checkout_form.type
+            checkout_form.submit();
+        } else {
+            event.preventDefault();
+        }
+    }
+</script>
+{% endblock content %}

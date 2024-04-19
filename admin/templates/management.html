@@ -1,0 +1,76 @@
+{% extends "general/base.html" %} {% block content %}
+
+<h1 class="text-3xl text-center font-bold my-10">Quản lý kho hàng</h1>
+
+{{ModalCreateProduct | safe}} {{Search | safe}}
+
+<div class="relative overflow-x-auto shadow-md rounded-2xl my-5">
+  <table class="w-full max-w-[1500px] text-sm text-left text-white mx-auto">
+    <thead class="text-base uppercase bg-primaryColor text-white">
+      <tr class="">
+        <th scope="col" class="px-6 py-3">Tên sản phẩm</th>
+        <th scope="col" class="px-6 py-3">Mô tả sản phẩm</th>
+        <th scope="col" class="px-6 py-3">Link ảnh</th>
+        <th scope="col" class="px-6 py-3">Đơn giá</th>
+        <th scope="col" class="px-6 py-3">
+          <span class="sr-only">Sửa</span>
+        </th>
+        <th scope="col" class="px-6 py-3">
+          <span class="sr-only">Xóa</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products_query%}
+      <tr class="border-b bg-gray-50 border-gray-700 hover:bg-gray-200">
+        <th scope="row" class="px-6 py-4 font-medium max-w-[300px] truncate">
+          {{product.name}}
+        </th>
+        <td class="px-6 py-4 max-w-[400px] truncate">
+          {{product.description}}
+        </td>
+        <td class="px-6 py-4 max-w-[400px] truncate">
+          <a href="{{product.image}}" target="_blank">{{product.image}}</a>
+        </td>
+        <td class="px-6 py-4">{{ product.price | currency }}</td>
+        <td class="px-6 py-4 text-right">
+          <a
+            href="{{ url_for('admin.edit_product', product_id = product.id) }}"
+            class="font-medium text-blue-500 hover:underline"
+            >Sửa</a
+          >
+        </td>
+        <td class="px-6 py-4 text-right">
+          <form
+            id="delete_form"
+            action="{{ url_for('admin.delete_product', product_id = product.id) }}"
+            method="post"
+          >
+            <button
+              id="delete_btn"
+              type="submit"
+              onclick="handleDelete(event)"
+              class="font-medium text-red-500 hover:underline"
+            >
+              Xóa
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function handleDelete(event) {
+    if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
+      document.getElementById("delete_form").submit();
+    } else {
+      // Prevent form submission
+      event.preventDefault();
+    }
+  }
+</script>
+
+{% endblock %}
